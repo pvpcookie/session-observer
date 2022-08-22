@@ -32,26 +32,30 @@ class SessionObserver implements ObserverInterface
      * @var SessionManager
      */
     private SessionManager $_sessionManager;
+    private Visitor $_visitor;
 
     public function __construct(
         LoggerInterface $logger,
         SessionManagerInterface $coreSession,
         SessionManager $sessionManager,
-        MagentoSessionManager $magentoSessionManager
+        MagentoSessionManager $magentoSessionManager,
+        Visitor $visitor,
     )
     {
         $this->logger = $logger;
         $this->_coreSession = $coreSession;
         $this->_sessionManager = $sessionManager;
         $this->_magentoSessionManager = $magentoSessionManager;
+        $this->_visitor = $visitor;
     }
 
     public function execute(Observer $observer)
     {
-        $this->logger->info('SessionObserver');
-        var_dump($this->_coreSession->getSessionId());
-        var_dump($this->_sessionManager->isValid());
-        var_dump(get_class_methods($this->_magentoSessionManager));
+        $this->logger->info('SessionObserver',$this->_coreSession->getData());
+        $this->logger->info('SessionObserver',$this->_sessionManager->getData());
+        $this->logger->info('SessionObserver',$this->_magentoSessionManager->getData());
+        $this->logger->info('SessionObserver',$this->_visitor->getData());
+        var_dump($this->_visitor->getData());
 
     }
 }
